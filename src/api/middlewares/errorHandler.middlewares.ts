@@ -1,14 +1,14 @@
-
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { NextFunction, Response } from 'express';
-import IFileUserRequest from '../interfaces/IFileUserRequest.interfaces';
-import errorGuard from '../guards/error.guards';
-import CustomError from '../utils/customError.utils';
 import { StatusCodes } from 'http-status-codes';
+import IFileUserRequest from '@/api/interfaces/IFileUserRequest.interfaces';
+import errorGuard from '@/api/guards/error.guards';
+import CustomError from '@/api/utils/customError.utils';
 
 const errorHandler = (
   err: Error,
   req: IFileUserRequest,
-  res: Response,// eslint-disable-next-line @typescript-eslint/no-unused-vars
+  res: Response,
   next: NextFunction
 ) => {
   if (err instanceof CustomError && errorGuard(err)) {

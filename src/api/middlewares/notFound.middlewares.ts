@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 import { StatusCodes, getReasonPhrase } from 'http-status-codes';
-
+/* eslint-disable @typescript-eslint/no-unused-vars */
 const pageNotFound = (
   req: Request,
-  res: Response, // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  res: Response, 
   next: NextFunction
 ) => {
   res.status(StatusCodes.NOT_FOUND).json({

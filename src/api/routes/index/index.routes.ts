@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import IndexController from '../controllers/index.controllers';
-import IRoute from '../interfaces/IRoute.interfaces';
+import IndexController from '@/api/controllers/index/index.controllers';
+import IRoute from '@/api/interfaces/IRoute.interfaces';
 
 class IndexRoute implements IRoute {
   public router: Router = Router();

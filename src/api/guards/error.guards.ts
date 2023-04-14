@@ -1,4 +1,4 @@
-import IError from '../interfaces/error.interfaces';
+import IError from '@/api/interfaces/error.interfaces';
 
 
 const errorGuard = (obj: IError): obj is IError => {

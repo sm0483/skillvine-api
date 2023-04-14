@@ -1,6 +1,6 @@
 import { Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import IFileUserRequest from '../interfaces/IFileUserRequest.interfaces';
+import IFileUserRequest from '@/api/interfaces/IFileUserRequest.interfaces';
 
 class IndexController {
   public index = (req: IFileUserRequest, res: Response) => {

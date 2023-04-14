@@ -1,4 +1,4 @@
-import IFileUserRequest from '../interfaces/IFileUserRequest.interfaces';
+import IFileUserRequest from '@/api/interfaces/IFileUserRequest.interfaces';
 import { NextFunction, Response } from 'express';
 
 const setCache = (
