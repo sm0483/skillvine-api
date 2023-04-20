@@ -1,12 +1,18 @@
-import auth from '@/api/config/oauth2.config';
+import Auth2Client from '@/api/config/oauth2.config';
 import { StatusCodes } from 'http-status-codes';
 import CustomError from '@/api/utils/customError.utils';
 import key from '../../config/key.config';
 import Teacher from '@/api/models/teacher.models';
 import { Response } from 'express';
+import Student from '@/api/models/student.models';
 
 class AuthServices {
-  public getUrl = async () => {
+  private auth2Client: Auth2Client = new Auth2Client();
+  public getUrl = async (userType: string) => {
+    let auth;
+    if (userType === 'teacher') auth = this.auth2Client.teacherOauth2Client;
+    else auth = this.auth2Client.studentOauth2Client;
+
     const url = auth.generateAuthUrl({
       access_type: 'offline',
       scope: ['profile', 'email'],
@@ -14,7 +20,10 @@ class AuthServices {
     return url;
   };
 
-  public getUserInfo = async (code: string) => {
+  public getUserInfo = async (code: string, userType: string) => {
+    let auth;
+    if (userType === 'teacher') auth = this.auth2Client.teacherOauth2Client;
+    else auth = this.auth2Client.studentOauth2Client;
     const tokens = (await auth.getToken(code)).tokens;
     if (!tokens)
       throw new CustomError('Invalid token', StatusCodes.INTERNAL_SERVER_ERROR);
@@ -35,7 +44,16 @@ class AuthServices {
 
   public createTeacher = async (email: string, name: string) => {
     const teacher = await Teacher.create({ email, name });
-    return teacher._id;
+    return teacher;
+  };
+
+  public checkStudent = async (email: string) => {
+    return await Student.findOne({ email });
+  };
+
+  public createStudent = async (email: string, name: string) => {
+    const student = await Student.create({ email, name });
+    return student;
   };
 
   public attachCookie = (token: string, res: Response) => {

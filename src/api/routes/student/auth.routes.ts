@@ -1,12 +1,12 @@
 import { Router } from 'express';
-import AuthTeacherController from '../../controllers/teacher/auth.controllers';
-import IRoute from '../../interfaces/IRoute.interfaces';
+import AuthStudentController from '@/api/controllers/student/auth.controllers';
+import IRoute from '@/api/interfaces/IRoute.interfaces';
 
-class AuthTeacherRoute implements IRoute {
+class AuthStudentRoute implements IRoute {
   public router: Router = Router();
-  public path = '/auth/teacher';
-  public authTeacherController: AuthTeacherController =
-    new AuthTeacherController();
+  public path = '/auth/students';
+  public authStudentController: AuthStudentController =
+    new AuthStudentController();
   constructor() {
     this.initRoutes();
   }
@@ -14,14 +14,14 @@ class AuthTeacherRoute implements IRoute {
   private initRoutes() {
     this.router.get(
       `${this.path}/google`,
-      this.authTeacherController.redirectAuth
+      this.authStudentController.redirectAuth
     );
 
     this.router.get(
       `${this.path}/google/callback`,
-      this.authTeacherController.callbackAuth
+      this.authStudentController.callbackAuth
     );
   }
 }
 
-export default AuthTeacherRoute;
+export default AuthStudentRoute;

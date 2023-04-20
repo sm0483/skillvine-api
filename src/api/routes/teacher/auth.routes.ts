@@ -4,7 +4,7 @@ import IRoute from '@/api/interfaces/IRoute.interfaces';
 
 class AuthTeacherRoute implements IRoute {
   public router: Router = Router();
-  public path = '/auth/teacher';
+  public path = '/auth/teachers';
   public authTeacherController: AuthTeacherController =
     new AuthTeacherController();
   constructor() {

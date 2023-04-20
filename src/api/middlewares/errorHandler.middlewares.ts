@@ -2,7 +2,6 @@
 import { NextFunction, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import IFileUserRequest from '@/api/interfaces/IFileUserRequest.interfaces';
-import errorGuard from '@/api/guards/error.guards';
 import CustomError from '@/api/utils/customError.utils';
 
 const errorHandler = (
@@ -11,7 +10,7 @@ const errorHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  if (err instanceof CustomError && errorGuard(err)) {
+  if (err instanceof CustomError) {
     return res
       .status(err.status)
       .json({ error: err.message, status: err.status });
