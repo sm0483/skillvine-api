@@ -51,6 +51,29 @@ class AuthTeacherController {
     this.authServices.attachCookie(token, res);
     res.redirect(key.CLIENT_URL_TEACHER);
   };
+  public getAccessToken = async (req: IFileUserRequest, res: Response) => {
+    const id = req.user.id;
+    if (!id) throw new CustomError('id not present', StatusCodes.UNAUTHORIZED);
+    const accessToken = true;
+    const token = this.jwtOperations.createJwt(
+      { id, accessToken },
+      key.ACCESS_EXPIRES,
+      key.ACCESS_TOKEN_KEY_TEACHER
+    );
+
+    res
+      .status(StatusCodes.OK)
+      .json({ accessTokenTeacher: token, userLogin: req.user.userLogin });
+  };
+
+  public logOutUser = async (req: IFileUserRequest, res: Response) => {
+    const id = req.user.id;
+    if (!id) throw new CustomError('id not present', StatusCodes.UNAUTHORIZED);
+    res.clearCookie('refreshTokenTeacher');
+    res
+      .status(StatusCodes.OK)
+      .json({ accessTokenTeacher: '', message: 'Logged out successfully' });
+  };
 }
 
 export default AuthTeacherController;

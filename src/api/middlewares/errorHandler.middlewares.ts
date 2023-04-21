@@ -10,6 +10,8 @@ const errorHandler = (
   res: Response,
   next: NextFunction
 ) => {
+  // eslint-disable-next-line no-console
+  console.log(err);
   if (err instanceof CustomError) {
     return res
       .status(err.status)

@@ -51,6 +51,30 @@ class AuthStudentController {
     if (userLogin) return res.redirect(key.CLIENT_URL_STUDENT_LOGIN);
     res.redirect(key.CLIENT_URL_STUDENT_REGISTER);
   };
+
+  public getAccessToken = async (req: IFileUserRequest, res: Response) => {
+    const id = req.user.id;
+    if (!id) throw new CustomError('id not present', StatusCodes.UNAUTHORIZED);
+    const accessToken = true;
+    const token = this.jwtOperations.createJwt(
+      { id, accessToken },
+      key.ACCESS_EXPIRES,
+      key.ACCESS_TOKEN_KEY_STUDENT
+    );
+
+    res
+      .status(StatusCodes.OK)
+      .json({ accessTokenStudent: token, userLogin: req.user.userLogin });
+  };
+
+  public logOutUser = async (req: IFileUserRequest, res: Response) => {
+    const id = req.user.id;
+    if (!id) throw new CustomError('id not present', StatusCodes.UNAUTHORIZED);
+    res.clearCookie('refreshTokenStudent');
+    res
+      .status(StatusCodes.OK)
+      .json({ accessTokenStudent: '', message: 'Logged out successfully' });
+  };
 }
 
 export default AuthStudentController;
