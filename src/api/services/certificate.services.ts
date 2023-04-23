@@ -153,6 +153,75 @@ class CertificateServices {
       },
     ]);
   };
+
+  public getCertificatesByStudentIdAndYear = async (
+    studentId: string,
+    year: number
+  ) => {
+    return Certificate.aggregate([
+      {
+        $match: {
+          studentId,
+          year,
+        },
+      },
+      {
+        $lookup: {
+          from: 'categories',
+          localField: 'categoryId',
+          foreignField: '_id',
+          as: 'category',
+        },
+      },
+      {
+        $lookup: {
+          from: 'teachers',
+          localField: 'lastVerifiedBy',
+          foreignField: '_id',
+          as: 'lastVerifiedBy',
+        },
+      },
+      {
+        $sort: {
+          createdAt: -1,
+        },
+      },
+      {
+        $unwind: {
+          path: '$lastVerifiedBy',
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $unwind: {
+          path: '$category',
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          certificateName: 1,
+          level: 1,
+          duration: 1,
+          year: 1,
+          status: 1,
+          createdAt: 1,
+          updatedAt: 1,
+          category: {
+            _id: 1,
+            activityHead: 1,
+            activity: 1,
+          },
+
+          lastVerifiedBy: {
+            _id: 1,
+            name: 1,
+          },
+        },
+      },
+    ]);
+  };
 }
 
 export default CertificateServices;

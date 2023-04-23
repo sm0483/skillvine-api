@@ -97,10 +97,11 @@ class CertificateController {
       throw new CustomError('No certificate id found', StatusCodes.BAD_REQUEST);
     if (!studentId)
       throw new CustomError('Token not valid', StatusCodes.UNAUTHORIZED);
-    const certificate = await this.certificateServices.getCertificateByIdAndStudentId(
-      certificateId,
-      studentId
-    );
+    const certificate =
+      await this.certificateServices.getCertificateByIdAndStudentId(
+        certificateId,
+        studentId
+      );
     res.status(StatusCodes.OK).json(certificate);
   };
 
@@ -111,9 +112,19 @@ class CertificateController {
     const studentId = req.user.id;
     if (!studentId)
       throw new CustomError('Token not valid', StatusCodes.UNAUTHORIZED);
-    const certificates =
-      await this.certificateServices.getCertificatesByStudentId(studentId);
-    res.status(StatusCodes.OK).json(certificates);
+    const [year1, year2, year3, year4] = await Promise.all([
+      this.certificateServices.getCertificatesByStudentIdAndYear(studentId, 1),
+      this.certificateServices.getCertificatesByStudentIdAndYear(studentId, 2),
+      this.certificateServices.getCertificatesByStudentIdAndYear(studentId, 3),
+      this.certificateServices.getCertificatesByStudentIdAndYear(studentId, 4),
+    ]);
+
+    res.status(StatusCodes.OK).json({
+      'First year': year1,
+      'Second Year': year2,
+      'Third Year': year3,
+      'Fourth Year': year4,
+    });
   };
 }
 
