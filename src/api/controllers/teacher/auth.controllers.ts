@@ -48,7 +48,7 @@ class AuthTeacherController {
       key.REFRESH_TOKEN_KEY_TEACHER
     );
 
-    this.authServices.attachCookie(token, res);
+    this.authServices.attachCookie(token, res, 'refreshTokenTeacher');
     res.redirect(key.CLIENT_URL_TEACHER);
   };
   public getAccessToken = async (req: IFileUserRequest, res: Response) => {

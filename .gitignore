@@ -41,3 +41,5 @@ script.py
 yarn.lock
 
 src/uploads/certificates*
+.env.development
+.env.production

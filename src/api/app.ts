@@ -31,8 +31,8 @@ class App {
   private initMiddleware = () => {
     key.NODE_ENV !== 'test' && this.app.use(morgan('dev'));
     this.app.use(cookieParser());
-    // this.app.use(cors());
     this.app.use(express.json());
+    this.app.use(cors({ origin: '*', credentials: true }));
   };
 
   private initErrorHandler = () => {
@@ -47,7 +47,7 @@ class App {
   };
 
   private initDb = async () => {
-    key.NODE_ENV !== 'test' && await connectDb();
+    key.NODE_ENV !== 'test' && (await connectDb());
   };
 
   public listen = () => {

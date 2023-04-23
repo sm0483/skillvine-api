@@ -56,12 +56,14 @@ class AuthServices {
     return student;
   };
 
-  public attachCookie = (token: string, res: Response) => {
-    res.cookie('refreshToken', token, {
-      httpOnly: false,
+  public attachCookie = (token: string, res: Response, name: string) => {
+    res.cookie(name, token, {
+      httpOnly: key.NODE_ENV === 'production' ? true : false,
       expires: new Date(Date.now() + 1000 * 60 * 60 * 24),
-      secure: false,
+      secure: true,
       signed: false,
+      sameSite: 'lax',
+      domain: key.NODE_ENV === 'production' ? key.PARENT_DOMAIN : 'localhost',
     });
   };
 }

@@ -47,7 +47,7 @@ class AuthStudentController {
       key.REFRESH_TOKEN_KEY_STUDENT
     );
 
-    this.authServices.attachCookie(token, res);
+    this.authServices.attachCookie(token, res,'refreshTokenStudent');
     if (userLogin) return res.redirect(key.CLIENT_URL_STUDENT_LOGIN);
     res.redirect(key.CLIENT_URL_STUDENT_REGISTER);
   };
