@@ -8,6 +8,7 @@ import CategoryRoutes from './routes/index/category.routes';
 import UserTeacherRoutes from './routes/teacher/user.routes';
 import CertificateRoutes from './routes/student/certificate.routes';
 import PdfRoutes from './routes/index/certRetrieval.routes';
+import ScoreRoute from './routes/student/score.routes';
 
 const app = new App(
   [
@@ -19,6 +20,7 @@ const app = new App(
     new UserTeacherRoutes(),
     new CertificateRoutes(),
     new PdfRoutes(),
+    new ScoreRoute(),
   ],
   '/api/v1/'
 );
