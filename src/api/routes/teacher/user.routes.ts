@@ -1,28 +1,23 @@
 import { Router } from 'express';
 import IRoute from '@/api/interfaces/IRoute.interfaces';
 import verifyAccessToken from '@/api/middlewares/verifyAccess.middlewares';
-import UserController from '@/api/controllers/student/user.controller';
+import UserController from '@/api/controllers/teacher/user.controllers';
 
-class UserStudentRoute implements IRoute {
+class UserTeacherRoute implements IRoute {
   public router: Router = Router();
-  public path = '/users/students';
+  public path = '/users/teachers';
   public userController: UserController = new UserController();
   constructor() {
     this.initRoutes();
   }
 
   private initRoutes() {
-    this.router.patch(
-      `${this.path}/`,
-      (req, res, next) => verifyAccessToken(req, res, next, 'student'),
-      this.userController.updateUser
-    );
     this.router.get(
       `${this.path}/`,
-      (req, res, next) => verifyAccessToken(req, res, next, 'student'),
+      (req, res, next) => verifyAccessToken(req, res, next, 'teacher'),
       this.userController.getAuthenticatedUser
     );
   }
 }
 
-export default UserStudentRoute;
+export default UserTeacherRoute;

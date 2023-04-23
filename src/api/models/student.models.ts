@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { IStudent } from '@/api/interfaces/IStudent.interfaces';
+import  IStudent  from '@/api/interfaces/IStudent.interfaces';
 
 const studentSchema = new mongoose.Schema<IStudent>({
   name: {

@@ -17,6 +17,17 @@ class UserController {
     if (!user) throw new CustomError('User not found', StatusCodes.NOT_FOUND);
     res.status(StatusCodes.OK).json({ message: 'Successfully updated' });
   };
+
+  public getAuthenticatedUser = async (
+    req: IFileUserRequest,
+    res: Response
+  ) => {
+    const id = req.user.id;
+    if (!id) throw new CustomError('id not present', StatusCodes.UNAUTHORIZED);
+    const user = await this.userService.getStudent(id);
+    if (!user) throw new CustomError('User not found', StatusCodes.NOT_FOUND);
+    res.status(StatusCodes.OK).json(user);
+  };
 }
 
 export default UserController;

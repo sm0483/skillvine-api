@@ -2,6 +2,7 @@ import { Router } from 'express';
 import CertRetrieval from '@/api/controllers/index/certRetrieval.controllers';
 import IRoute from '@/api/interfaces/IRoute.interfaces';
 import setCache from '@/api/middlewares/setCache.middlewares';
+import verifyAccessTokenImage from '@/api/middlewares/imageTokenVerify.middlewares';
 
 class CertRetrievalRoute implements IRoute {
   public router: Router = Router();
@@ -12,7 +13,12 @@ class CertRetrievalRoute implements IRoute {
   }
 
   private initRoutes() {
-    this.router.get(`${this.path}`, setCache, this.certRetrieval.getCert);
+    this.router.get(
+      `${this.path}/:pdfId`,
+      (req, res, next) => verifyAccessTokenImage(req, res, next, 'student'),
+      setCache,
+      this.certRetrieval.getCert
+    );
   }
 }
 

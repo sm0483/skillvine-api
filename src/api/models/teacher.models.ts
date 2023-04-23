@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { ITeacher } from '@/api//interfaces/ITeacher.interfaces';
+import  ITeacher  from '@/api/interfaces/ITeacher.interfaces';
 
 const teacherSchema = new mongoose.Schema<ITeacher>({
   name: {

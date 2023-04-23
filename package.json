@@ -12,7 +12,8 @@
     "lint:watch": "eslint-watch src/**/*.ts",
     "start": "npx tsc && node -r ts-node/register -r tsconfig-paths/register dist/api/index.js",
     "build": "npx tsc",
-    "dev": "nodemon --exec ts-node -r tsconfig-paths/register src/api/index.ts"
+    "dev": "nodemon --exec ts-node -r tsconfig-paths/register src/api/index.ts",
+    "seed": "ts-node -r tsconfig-paths/register src/data/seed.ts"
   },
   "keywords": [
     "express",

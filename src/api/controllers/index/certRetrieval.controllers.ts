@@ -7,10 +7,10 @@ import IFileUserRequest from '@/api/interfaces/IFileUserRequest.interfaces';
 
 class CertRetrievalController {
   private storage: Storage = new Storage();
-  public async getCert(req: IFileUserRequest, res: Response) {
-    const key = req.params.key;
+  public getCert = async (req: IFileUserRequest, res: Response) => {
+    const key = req.params.pdfId;
     if (!key) throw new CustomError('Key not found', StatusCodes.BAD_REQUEST);
-    if (req.user.id !== key.split(':')[1])
+    if (req.user.id !== key.split(':')[1] && !req.user.isTeacher)
       throw new CustomError('Unauthorized', StatusCodes.UNAUTHORIZED);
     const pdfStream = await this.storage.readPdf(key);
     if (!pdfStream) {
@@ -20,7 +20,7 @@ class CertRetrievalController {
       res.setHeader('Content-Type', 'application/pdf');
       pdfStream.pipe(res);
     }
-  }
+  };
 }
 
 export default CertRetrievalController;
