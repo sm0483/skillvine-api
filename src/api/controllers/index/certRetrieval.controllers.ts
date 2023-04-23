@@ -1,0 +1,26 @@
+import Storage from '@/api/utils/storage.utils';
+import { Response } from 'express';
+import CustomError from '@/api/utils/customError.utils';
+import { StatusCodes } from 'http-status-codes';
+import { Readable } from 'stream';
+import IFileUserRequest from '@/api/interfaces/IFileUserRequest.interfaces';
+
+class CertRetrievalController {
+  private storage: Storage = new Storage();
+  public async getCert(req: IFileUserRequest, res: Response) {
+    const key = req.params.key;
+    if (!key) throw new CustomError('Key not found', StatusCodes.BAD_REQUEST);
+    if (req.user.id !== key.split(':')[1])
+      throw new CustomError('Unauthorized', StatusCodes.UNAUTHORIZED);
+    const pdfStream = await this.storage.readPdf(key);
+    if (!pdfStream) {
+      throw new CustomError('Certificate not found', StatusCodes.NOT_FOUND);
+    }
+    if (pdfStream instanceof Readable) {
+      res.setHeader('Content-Type', 'application/pdf');
+      pdfStream.pipe(res);
+    }
+  }
+}
+
+export default CertRetrievalController;
