@@ -2,7 +2,7 @@ import mongoose, { Document } from 'mongoose';
 
 interface ICertificate extends Document {
   categoryId: mongoose.Schema.Types.ObjectId;
-  studentId: string;
+  studentId: mongoose.Schema.Types.ObjectId;
   level: number;
   points?: number;
   duration: number;

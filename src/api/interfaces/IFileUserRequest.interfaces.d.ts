@@ -6,6 +6,7 @@ interface IRequestWithFileAndUser extends Request {
     id: string;
     userLogin: boolean;
     isTeacher?: boolean;
+    name?: string;
   };
   data?: object;
 }

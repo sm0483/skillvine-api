@@ -23,6 +23,11 @@ class TeacherCertificateRoute implements IRoute {
       (req, res, next) => verifyAccessToken(req, res, next, 'teacher'),
       this.certificateController.getCertificateById
     );
+    this.router.patch(
+      `${this.path}/:certificateId`,
+      (req, res, next) => verifyAccessToken(req, res, next, 'teacher'),
+      this.certificateController.markCertificate
+    );
   }
 }
 

@@ -43,7 +43,7 @@ class AuthTeacherController {
       id = teacher._id;
     }
     const token = this.jwtOperations.createJwt(
-      { id, userLogin },
+      { id, userLogin, name: (userInfo as IAuthUser).name },
       key.REFRESH_EXPIRES,
       key.REFRESH_TOKEN_KEY_TEACHER
     );
@@ -56,7 +56,7 @@ class AuthTeacherController {
     if (!id) throw new CustomError('id not present', StatusCodes.UNAUTHORIZED);
     const accessToken = true;
     const token = this.jwtOperations.createJwt(
-      { id, accessToken },
+      { id, accessToken, name: req.user.name },
       key.ACCESS_EXPIRES,
       key.ACCESS_TOKEN_KEY_TEACHER
     );

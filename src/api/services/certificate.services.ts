@@ -10,7 +10,7 @@ class CertificateServices {
     return Certificate.findOneAndUpdate(
       { _id: certificateId },
       { ...data },
-      { runValidators: true, new: true }
+      { runValidators: true }
     );
   };
 
@@ -228,6 +228,8 @@ class CertificateServices {
       },
     ]);
   };
+  
+
 }
 
 export default CertificateServices;

@@ -2,12 +2,21 @@ import { StatusCodes } from 'http-status-codes';
 import IFileUserRequest from '@/api/interfaces/IFileUserRequest.interfaces';
 import { Response } from 'express';
 import CustomError from '@/api/utils/customError.utils';
-import CertificateServices from '@/api/services/certificate.services';
 import UserServices from '@/api/services/user.services';
+import CertificateServices from '@/api/services/certificate.services';
+import ValidateCertificate from '@/api/validators/certificate.validators';
+import IMarkData from '@/api/interfaces/IMarkData.interfaces';
+import CategoryServices from '@/api/services/category.services';
+import ICategory from '@/api/interfaces/ICategory.interfaces';
+import ICertificate from '@/api/interfaces/ICertificate.interfaces';
+import NotificationServices from '@/api/services/notification.services';
 
 class CertificateController {
   private certificateServices = new CertificateServices();
   private userServices = new UserServices();
+  private validateCertificate = new ValidateCertificate();
+  private categoryServices = new CategoryServices();
+  private notificationServices = new NotificationServices();
   public getCertificateByStudentId = async (
     req: IFileUserRequest,
     res: Response
@@ -36,6 +45,7 @@ class CertificateController {
       },
     });
   };
+
   public getCertificateById = async (req: IFileUserRequest, res: Response) => {
     const { certificateId } = req.params;
     if (!certificateId)
@@ -49,6 +59,56 @@ class CertificateController {
     if (!certificate)
       throw new CustomError('Certificate not found', StatusCodes.NOT_FOUND);
     res.status(StatusCodes.OK).json(certificate);
+  };
+
+  public markCertificate = async (req: IFileUserRequest, res: Response) => {
+    let data: IMarkData = req.body;
+    const { certificateId } = req.params;
+    const lastVerifiedBy = req.user.id;
+    const extractErrorMessages =
+      this.validateCertificate.validateMarkCertificate(data);
+    if (extractErrorMessages)
+      throw new CustomError(extractErrorMessages, StatusCodes.BAD_REQUEST);
+    data = {
+      ...data,
+      lastVerifiedBy,
+    };
+    if (!certificateId)
+      throw new CustomError(
+        'CertificateId is required',
+        StatusCodes.BAD_REQUEST
+      );
+
+    const isCategoryPresent: ICategory = await this.categoryServices.isPresent(
+      data.categoryId
+    );
+
+    if (!isCategoryPresent)
+      throw new CustomError('Category not found', StatusCodes.NOT_FOUND);
+
+    const validatePoints = await this.categoryServices.validateCategory(
+      isCategoryPresent,
+      data.level,
+      data.isLeadership,
+      data.leadershipLevel,
+      data.points
+    );
+
+    if (!validatePoints)
+      throw new CustomError('Points not valid', StatusCodes.BAD_REQUEST);
+
+    const certificate: ICertificate | null =
+      await this.certificateServices.editCertificate(data, certificateId);
+    if (!certificate)
+      throw new CustomError('Certificate not found', StatusCodes.NOT_FOUND);
+    const message = `${certificate.certificateName} marked by ${req.user.name}`;
+    const messageData = {
+      message,
+      studentId: certificate.studentId,
+    };
+    await this.notificationServices.createNotification(messageData);
+
+    res.status(StatusCodes.OK).json({ message: 'Certificate marked' });
   };
 }
 

@@ -12,7 +12,8 @@ const certificateSchema = new mongoose.Schema<ICertificate>(
       required: true,
     },
     studentId: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Student',
       required: true,
     },
     level: {

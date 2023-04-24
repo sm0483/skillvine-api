@@ -30,6 +30,7 @@ const verifyAccessToken = (
     req.user = {
       id: (tokenResponse as ITokenResponse).payload.id,
       userLogin: (tokenResponse as ITokenResponse).payload.userLogin,
+      name: (tokenResponse as ITokenResponse).payload.name,
     };
     return next();
   } catch (err) {
