@@ -5,6 +5,11 @@ class BatchServices {
     const batches = await Student.find({}).distinct('batch');
     return batches;
   };
+
+  public getStudentByBatch = async (batch: string) => {
+    const students = await Student.find({ batch }, { name: 1, _id: 1 });
+    return students;
+  };
 }
 
 export default BatchServices;

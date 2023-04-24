@@ -17,6 +17,12 @@ class BatchRoute implements IRoute {
       (req, res, next) => verifyAccessToken(req, res, next, 'teacher'),
       this.batchController.getBatches
     );
+
+    this.router.get(
+      `${this.path}/:batch`,
+      (req, res, next) => verifyAccessToken(req, res, next, 'teacher'),
+      this.batchController.getStudentByBatch
+    );
   }
 }
 
