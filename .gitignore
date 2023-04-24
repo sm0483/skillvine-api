@@ -43,3 +43,4 @@ yarn.lock
 src/api/uploads/certificate*
 .env.development
 .env.production
+mockdata

@@ -1,14 +1,15 @@
-import App from './app';
+import App from '@/api/app';
 import keyConfig from '../config/key.config';
-import IndexRoute from './routes/index/index.routes';
-import AuthTeacherRoute from './routes/teacher/auth.routes';
-import AuthStudentRoute from './routes/student/auth.routes';
-import UserStudentRoute from './routes/student/user.routes';
-import CategoryRoutes from './routes/index/category.routes';
-import UserTeacherRoutes from './routes/teacher/user.routes';
-import CertificateRoutes from './routes/student/certificate.routes';
-import PdfRoutes from './routes/index/certRetrieval.routes';
-import ScoreRoute from './routes/student/score.routes';
+import IndexRoute from '@/api/routes/index/index.routes';
+import AuthTeacherRoute from '@/api/routes/teacher/auth.routes';
+import AuthStudentRoute from '@/api/routes/student/auth.routes';
+import UserStudentRoute from '@/api/routes/student/user.routes';
+import CategoryRoutes from '@/api/routes/index/category.routes';
+import UserTeacherRoutes from '@/api/routes/teacher/user.routes';
+import CertificateRoutes from '@/api/routes/student/certificate.routes';
+import PdfRoutes from '@/api/routes/index/certRetrieval.routes';
+import ScoreRoute from '@/api/routes/student/score.routes';
+import BatchRoute from '@/api/routes/teacher/batch.routes';
 
 const app = new App(
   [
@@ -21,6 +22,7 @@ const app = new App(
     new CertificateRoutes(),
     new PdfRoutes(),
     new ScoreRoute(),
+    new BatchRoute(),
   ],
   '/api/v1/'
 );
