@@ -40,6 +40,6 @@ dist/**/*
 script.py
 yarn.lock
 
-src/uploads/certificates*
+src/api/uploads/certificate*
 .env.development
 .env.production

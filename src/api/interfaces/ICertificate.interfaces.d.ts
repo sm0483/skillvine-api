@@ -13,6 +13,8 @@ interface ICertificate extends Document {
   lastVerifiedBy: mongoose.Schema.Types.ObjectId;
   certificateName: string;
   participationDate: Date;
+  leadershipLevel: number;
+  isLeadership: boolean;
 }
 
 export default ICertificate;

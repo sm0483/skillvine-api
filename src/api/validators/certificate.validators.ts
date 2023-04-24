@@ -10,6 +10,8 @@ class ValidateCertificate {
     certificateDescription: Joi.string(),
     certificateName: Joi.string().min(4).max(50),
     participationDate: Joi.date(),
+    leadershipLevel: Joi.number(),
+    isLeadership: Joi.boolean(),
   });
 
   public validateUploadCertificate = (data: object) => {
@@ -22,6 +24,8 @@ class ValidateCertificate {
         'certificateDescription',
         'certificateName',
         'participationDate',
+        'leadershipLevel',
+        'isLeadership',
       ],
       (schema) => schema.required()
     );

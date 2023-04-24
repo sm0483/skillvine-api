@@ -84,6 +84,8 @@ class CertificateServices {
             _id: 1,
             name: 1,
           },
+          isLeadership: 1,
+          leadershipLevel: 1,
         },
       },
     ]);
@@ -149,6 +151,8 @@ class CertificateServices {
             _id: 1,
             name: 1,
           },
+          isLeadership: 1,
+          leadershipLevel: 1,
         },
       },
     ]);
@@ -218,6 +222,8 @@ class CertificateServices {
             _id: 1,
             name: 1,
           },
+          isLeadership: 1,
+          leadershipLevel: 1,
         },
       },
     ]);

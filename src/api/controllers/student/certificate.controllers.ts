@@ -8,11 +8,13 @@ import { v4 as uid } from 'uuid';
 import Key from '@/config/key.config';
 import Storage from '@/api/utils/storage.utils';
 import ICertificate from '@/api/interfaces/ICertificate.interfaces';
+import UserServices from '@/api/services/user.services';
 
 class CertificateController {
   private validateCertificate: ValidateCertificate = new ValidateCertificate();
   private certificateServices: CertificateServices = new CertificateServices();
   private storage: Storage = new Storage();
+  private userServices: UserServices = new UserServices();
 
   public createCertificate = async (req: IFileUserRequest, res: Response) => {
     let data = req.body.data && JSON.parse(req.body.data);
@@ -112,7 +114,8 @@ class CertificateController {
     const studentId = req.user.id;
     if (!studentId)
       throw new CustomError('Token not valid', StatusCodes.UNAUTHORIZED);
-    const [year1, year2, year3, year4] = await Promise.all([
+    const [student, year1, year2, year3, year4] = await Promise.all([
+      this.userServices.getStudent(studentId),
       this.certificateServices.getCertificatesByStudentIdAndYear(studentId, 1),
       this.certificateServices.getCertificatesByStudentIdAndYear(studentId, 2),
       this.certificateServices.getCertificatesByStudentIdAndYear(studentId, 3),
@@ -120,10 +123,15 @@ class CertificateController {
     ]);
 
     res.status(StatusCodes.OK).json({
-      'First year': year1,
-      'Second Year': year2,
-      'Third Year': year3,
-      'Fourth Year': year4,
+      name: student.name,
+      admissionNumber: student.admissionNumber,
+      ktuId: student.ktuId,
+      points: {
+        'First Year': year1,
+        'Second Year': year2,
+        'Third Year': year3,
+        'Fourth Year': year4,
+      },
     });
   };
 }

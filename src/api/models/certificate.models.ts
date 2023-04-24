@@ -17,7 +17,7 @@ const certificateSchema = new mongoose.Schema<ICertificate>(
     },
     level: {
       type: Number,
-      required: true,
+      default: 0,
     },
     points: {
       type: Number,
@@ -51,6 +51,14 @@ const certificateSchema = new mongoose.Schema<ICertificate>(
     participationDate: {
       type: Date,
       required: true,
+    },
+    leadershipLevel: {
+      type: Number,
+      default: 0,
+    },
+    isLeadership: {
+      type: Boolean,
+      default: false,
     },
   },
   { timestamps: true }
