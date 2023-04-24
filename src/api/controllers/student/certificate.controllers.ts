@@ -68,7 +68,11 @@ class CertificateController {
       );
     let deleteKey: string;
     let key: string;
-    if (req.file && req.file.mimetype.includes('application/pdf')) {
+    if (
+      req.file &&
+      (req.file.mimetype.includes('application/pdf') ||
+        req.file.mimetype.startsWith('image/'))
+    ) {
       key = `${uid()}:${req.user.id}`;
       const certificate: ICertificate =
         await this.certificateServices.getCertificateById(certificateId);

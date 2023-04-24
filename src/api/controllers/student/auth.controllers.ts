@@ -25,29 +25,32 @@ class AuthStudentController {
       'student'
     );
     const userInfo: IAuthUser = userInfoRes.data;
-    let teacher = await this.authServices.checkStudent(
+    let student = await this.authServices.checkStudent(
       (userInfo as IAuthUser).email
     );
 
     let id: string;
     let userLogin = true;
-    if (!teacher) {
-      teacher = await this.authServices.createStudent(
+    if (!student) {
+      student = await this.authServices.createStudent(
         (userInfo as IAuthUser).email,
         (userInfo as IAuthUser).name
       );
       userLogin = false;
-      id = teacher._id;
+      id = student._id;
     } else {
-      id = teacher._id;
+      id = student._id;
     }
+
     const token = this.jwtOperations.createJwt(
       { id, userLogin },
       key.REFRESH_EXPIRES,
       key.REFRESH_TOKEN_KEY_STUDENT
     );
 
-    this.authServices.attachCookie(token, res,'refreshTokenStudent');
+    this.authServices.attachCookie(token, res, 'refreshTokenStudent');
+    if (!student?.ktuId || !student?.admissionNumber)
+      res.redirect(key.CLIENT_URL_STUDENT_REGISTER);
     if (userLogin) return res.redirect(key.CLIENT_URL_STUDENT_LOGIN);
     res.redirect(key.CLIENT_URL_STUDENT_REGISTER);
   };
