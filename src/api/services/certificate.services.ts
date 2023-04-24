@@ -22,10 +22,11 @@ class CertificateServices {
     studentId: string
   ) => {
     const _id = new mongoose.Types.ObjectId(certificateId);
+    const id = new mongoose.Types.ObjectId(studentId);
     return Certificate.aggregate([
       {
         $match: {
-          studentId,
+          studentId: id,
           _id,
         },
       },
@@ -92,10 +93,11 @@ class CertificateServices {
   };
 
   public getCertificatesByStudentId = async (studentId: string) => {
+    const id = new mongoose.Types.ObjectId(studentId);
     return Certificate.aggregate([
       {
         $match: {
-          studentId,
+          studentId: id,
         },
       },
       {
@@ -162,10 +164,11 @@ class CertificateServices {
     studentId: string,
     year: number
   ) => {
+    const id = new mongoose.Types.ObjectId(studentId);
     return Certificate.aggregate([
       {
         $match: {
-          studentId,
+          studentId: id,
           year,
         },
       },
@@ -228,8 +231,6 @@ class CertificateServices {
       },
     ]);
   };
-  
-
 }
 
 export default CertificateServices;
