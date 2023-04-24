@@ -12,8 +12,14 @@ class ScoreController {
   ) => {
     const { id } = req.user;
     if (!id) throw new CustomError('User not found', StatusCodes.NOT_FOUND);
-    let score = await this.scoreServices.getScoreByStudentId(id);
-    if (!score) score = await this.scoreServices.createScoreByStudentId(id);
+    const certificates = await this.scoreServices.getCertificates(id);
+    let points = 0;
+    if (certificates.length !== 0) {
+      points = await this.scoreServices.getPoints(certificates);
+    }
+    let score = await this.scoreServices.isPresent(id);
+    if (!score) score = await this.scoreServices.createScore(id, points);
+    else score = await this.scoreServices.updateScore(id, points);
     return res.status(StatusCodes.OK).json(score);
   };
 }
