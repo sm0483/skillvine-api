@@ -2,7 +2,7 @@ interface IMarkData {
   categoryId: string;
   level: number;
   duration?: number;
-  year?: number;
+  year: number;
   leadershipLevel: number;
   isLeadership: boolean;
   points: number;

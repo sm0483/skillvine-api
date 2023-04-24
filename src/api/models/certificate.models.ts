@@ -33,7 +33,7 @@ const certificateSchema = new mongoose.Schema<ICertificate>(
     },
     status: {
       type: String,
-      enum: ['pending', 'approved', 'rejected'],
+      enum: ['pending', 'approved', 'rejected', 'duplicate'],
       default: 'pending',
     },
     certificateUrl: {

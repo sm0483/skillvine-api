@@ -94,9 +94,35 @@ class CertificateController {
       data.points
     );
 
+    const certificateData: ICertificate =
+      await this.certificateServices.getCertificateById(certificateId);
+
     if (!validatePoints)
       throw new CustomError('Points not valid', StatusCodes.BAD_REQUEST);
 
+    const isCertificatePresent =
+      await this.certificateServices.getCertByStuIdCatIdYearSta(
+        certificateData.studentId,
+        data.categoryId,
+        data.year,
+        certificateId
+      );
+    if (isCertificatePresent) {
+      if (isCertificatePresent.points >= data.points) {
+        data = {
+          ...data,
+          status: 'rejected',
+        };
+      } else if (
+        isCertificatePresent.points < data.points &&
+        data.status === 'approved'
+      ) {
+        await this.certificateServices.editCertificate(
+          { status: 'rejected' },
+          isCertificatePresent._id
+        );
+      }
+    }
     const certificate: ICertificate | null =
       await this.certificateServices.editCertificate(data, certificateId);
     if (!certificate)

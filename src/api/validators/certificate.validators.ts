@@ -16,11 +16,13 @@ class ValidateCertificate {
 
   private schemaForMark = Joi.object({
     points: Joi.number().required(),
-    status: Joi.string().valid('pending', 'approved', 'rejected').required(),
+    status: Joi.string()
+      .valid('pending', 'approved', 'rejected', 'duplicate')
+      .required(),
     categoryId: Joi.string().hex().length(24).required(),
     level: Joi.number().required(),
     duration: Joi.number(),
-    year: Joi.number().min(1).max(4),
+    year: Joi.number().min(1).max(4).required(),
     leadershipLevel: Joi.number(),
     isLeadership: Joi.boolean().required(),
   });

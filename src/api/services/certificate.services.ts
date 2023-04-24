@@ -231,6 +231,25 @@ class CertificateServices {
       },
     ]);
   };
+
+  public getCertByStuIdCatIdYearSta = async (
+    studentId: mongoose.Schema.Types.ObjectId,
+    categoryId: string,
+    year: number,
+    certificateId: string
+  ) => {
+    const certificate = await Certificate.findOne({
+      studentId,
+      categoryId,
+      year,
+      _id: { $ne: certificateId },
+      status: 'approved',
+    });
+
+    return certificate;
+  };
+
+    
 }
 
 export default CertificateServices;

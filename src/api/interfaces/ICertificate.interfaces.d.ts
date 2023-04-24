@@ -7,7 +7,7 @@ interface ICertificate extends Document {
   points?: number;
   duration: number;
   year: number;
-  status: 'pending' | 'approved' | 'rejected';
+  status: 'pending' | 'approved' | 'rejected' | 'duplicate';
   certificateUrl: string;
   certificateDescription: string;
   lastVerifiedBy: mongoose.Schema.Types.ObjectId;
