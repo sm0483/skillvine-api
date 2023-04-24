@@ -10,7 +10,8 @@ import CertificateRoutes from '@/api/routes/student/certificate.routes';
 import PdfRoutes from '@/api/routes/index/certRetrieval.routes';
 import ScoreRoute from '@/api/routes/student/score.routes';
 import BatchRoute from '@/api/routes/teacher/batch.routes';
-import TeacherCertificateRoute from './routes/teacher/certificate.routes';
+import TeacherCertificateRoute from '@/api/routes/teacher/certificate.routes';
+import NotificationRoute from '@/api/routes/student/notification.routes';
 
 const app = new App(
   [
@@ -25,6 +26,7 @@ const app = new App(
     new ScoreRoute(),
     new BatchRoute(),
     new TeacherCertificateRoute(),
+    new NotificationRoute(),
   ],
   '/api/v1/'
 );
