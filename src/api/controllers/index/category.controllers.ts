@@ -7,10 +7,10 @@ import CategoryServices from '@/api/services/category.services';
 class CategoryController {
   private categoryServices: CategoryServices = new CategoryServices();
   public getCategory = async (req: IFileUserRequest, res: Response) => {
-    const category = await this.categoryServices.getCategory();
-    if (!category)
+    const categories = await this.categoryServices.getCategory();
+    if (categories.length === 0)
       throw new CustomError('Category not found', StatusCodes.NOT_FOUND);
-    return res.status(StatusCodes.OK).json(category);
+    return res.status(StatusCodes.OK).json(categories);
   };
 }
 
