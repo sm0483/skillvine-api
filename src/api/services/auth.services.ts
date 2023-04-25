@@ -51,8 +51,8 @@ class AuthServices {
     return await Student.findOne({ email });
   };
 
-  public createStudent = async (email: string, name: string) => {
-    const student = await Student.create({ email, name });
+  public createStudent = async (email: string, name: string, profileImage) => {
+    const student = await Student.create({ email, name, profileImage });
     return student;
   };
 

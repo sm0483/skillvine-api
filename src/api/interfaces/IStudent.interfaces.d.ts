@@ -7,6 +7,7 @@ interface IStudent extends Document {
   college?: string;
   admissionNumber?: string;
   batch?: string;
+  profileImage?: string;
 }
 
 export default IStudent;

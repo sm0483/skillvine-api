@@ -27,6 +27,10 @@ const studentSchema = new mongoose.Schema<IStudent>({
   batch: {
     type: String,
   },
+  profileImage:{
+    type: String,
+    default: '',
+  }
 });
 
 const Student = mongoose.model<IStudent>('Student', studentSchema);

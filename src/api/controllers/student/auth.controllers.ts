@@ -34,7 +34,8 @@ class AuthStudentController {
     if (!student) {
       student = await this.authServices.createStudent(
         (userInfo as IAuthUser).email,
-        (userInfo as IAuthUser).name
+        (userInfo as IAuthUser).name,
+        (userInfo as IAuthUser).picture
       );
       userLogin = false;
       id = student._id;
