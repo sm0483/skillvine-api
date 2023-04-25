@@ -50,7 +50,7 @@ class AuthStudentController {
 
     this.authServices.attachCookie(token, res, 'refreshTokenStudent');
     if (!student?.ktuId || !student?.admissionNumber)
-      res.redirect(key.CLIENT_URL_STUDENT_REGISTER);
+      return res.redirect(key.CLIENT_URL_STUDENT_REGISTER);
     if (userLogin) return res.redirect(key.CLIENT_URL_STUDENT_LOGIN);
     res.redirect(key.CLIENT_URL_STUDENT_REGISTER);
   };

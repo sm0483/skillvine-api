@@ -17,7 +17,6 @@ class CertRetrievalController {
       throw new CustomError('Certificate not found', StatusCodes.NOT_FOUND);
     }
     if (pdfStream instanceof Readable) {
-      res.setHeader('Content-Type', 'application/pdf');
       pdfStream.pipe(res);
     }
   };

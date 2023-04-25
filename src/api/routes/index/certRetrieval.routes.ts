@@ -15,7 +15,7 @@ class CertRetrievalRoute implements IRoute {
   private initRoutes() {
     this.router.get(
       `${this.path}/:pdfId`,
-      (req, res, next) => verifyAccessTokenImage(req, res, next, 'student'),
+      verifyAccessTokenImage,
       setCache,
       this.certRetrieval.getCert
     );

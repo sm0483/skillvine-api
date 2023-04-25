@@ -27,7 +27,11 @@ class CertificateController {
       throw new CustomError('Token not valid', StatusCodes.UNAUTHORIZED);
     const errorMessage =
       this.validateCertificate.validateUploadCertificate(data);
-    if (!req.file || !req.file.mimetype.includes('application/pdf'))
+    if (
+      !req.file ||
+      (!req.file.mimetype.includes('application/pdf') &&
+        !req.file.mimetype.startsWith('image/'))
+    )
       throw new CustomError('No PDF found on request', StatusCodes.BAD_REQUEST);
     if (errorMessage)
       throw new CustomError(errorMessage, StatusCodes.BAD_REQUEST);

@@ -9,23 +9,33 @@ import ITokenResponse from '@/api/interfaces/ITokenResponse.interfaces';
 const verifyAccessTokenImage = (
   req: IFileUserRequest,
   res: Response,
-  next: NextFunction,
-  userType: string
+  next: NextFunction
 ) => {
   const token = req.query.token;
   if (!token) {
     throw new CustomError('Token not present', StatusCodes.UNAUTHORIZED);
   }
   const jwtOperations = new JwtOperations();
-  const key =
-    userType === 'student'
-      ? Key.ACCESS_TOKEN_KEY_STUDENT
-      : Key.ACCESS_TOKEN_KEY_TEACHER;
-  const isTeacher: boolean = userType === 'teacher' ? true : false;
+  let isTeacher = false;
   try {
-    const tokenResponse = jwtOperations.isTokenValid(token as string, key);
-    if (!tokenResponse) {
+    const tokenResponseTeacher = jwtOperations.isTokenValid(
+      token as string,
+      Key.ACCESS_TOKEN_KEY_TEACHER
+    );
+    const tokenResponseStudent = jwtOperations.isTokenValid(
+      token as string,
+      Key.ACCESS_TOKEN_KEY_STUDENT
+    );
+    if (!tokenResponseTeacher && !tokenResponseStudent) {
       throw new CustomError('Invalid token', StatusCodes.UNAUTHORIZED);
+    }
+    let tokenResponse: ITokenResponse | undefined | boolean;
+    if (tokenResponseStudent) {
+      tokenResponse = tokenResponseStudent;
+      isTeacher = false;
+    } else {
+      tokenResponse = tokenResponseTeacher;
+      isTeacher = true;
     }
     req.user = {
       id: (tokenResponse as ITokenResponse).payload.id,
