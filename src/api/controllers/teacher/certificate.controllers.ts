@@ -53,7 +53,7 @@ class CertificateController {
         'CertificateId is required',
         StatusCodes.BAD_REQUEST
       );
-    const certificate = await this.certificateServices.getCertificateById(
+    const certificate = await this.certificateServices.getCertificateByIdPopulate(
       certificateId
     );
     if (!certificate)
@@ -111,14 +111,14 @@ class CertificateController {
       if (isCertificatePresent.points >= data.points) {
         data = {
           ...data,
-          status: 'rejected',
+          status: 'unapplied',
         };
       } else if (
         isCertificatePresent.points < data.points &&
         data.status === 'approved'
       ) {
         await this.certificateServices.editCertificate(
-          { status: 'rejected' },
+          { status: 'unapplied' },
           isCertificatePresent._id
         );
       }

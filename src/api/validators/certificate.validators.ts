@@ -27,6 +27,10 @@ class ValidateCertificate {
     isLeadership: Joi.boolean().required(),
   });
 
+  public validateEditCertificate = (data: object) => {
+    return extractErrorMessages(this.schema, data);
+  };
+
   public validateUploadCertificate = (data: object) => {
     const scheme = this.schema.fork(
       [
@@ -44,10 +48,6 @@ class ValidateCertificate {
     );
 
     return extractErrorMessages(scheme, data);
-  };
-
-  public validateEditCertificate = (data: object) => {
-    return extractErrorMessages(this.schema, data);
   };
 
   public validateMarkCertificate = (data: object) => {

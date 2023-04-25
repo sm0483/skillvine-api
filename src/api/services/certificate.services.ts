@@ -17,6 +17,77 @@ class CertificateServices {
   public getCertificateById = async (certificateId: string) => {
     return Certificate.findOne({ _id: certificateId });
   };
+
+  public getCertificateByIdPopulate = async (certificateId: string) => {
+    const _id = new mongoose.Types.ObjectId(certificateId);
+    return Certificate.aggregate([
+      {
+        $match: {
+          _id,
+        },
+      },
+      {
+        $sort: {
+          createdAt: -1,
+        },
+      },
+      {
+        $lookup: {
+          from: 'categories',
+          localField: 'categoryId',
+          foreignField: '_id',
+          as: 'category',
+        },
+      },
+      {
+        $lookup: {
+          from: 'teachers',
+          localField: 'lastVerifiedBy',
+          foreignField: '_id',
+          as: 'lastVerifiedBy',
+        },
+      },
+      {
+        $unwind: {
+          path: '$lastVerifiedBy',
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $unwind: {
+          path: '$category',
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          certificateName: 1,
+          studentId: 1,
+          level: 1,
+          duration: 1,
+          year: 1,
+          status: 1,
+          certificateUrl: 1,
+          certificateDescription: 1,
+          createdAt: 1,
+          updatedAt: 1,
+          category: {
+            _id: 1,
+            activityHead: 1,
+            activity: 1,
+          },
+          lastVerifiedBy: {
+            _id: 1,
+            name: 1,
+          },
+          isLeadership: 1,
+          leadershipLevel: 1,
+          participationDate: 1,
+        },
+      },
+    ]);
+  };
   public getCertificateByIdAndStudentId = async (
     certificateId: string,
     studentId: string
@@ -246,7 +317,7 @@ class CertificateServices {
       categoryId,
       year,
       _id: { $ne: certificateId },
-      status: 'approved',
+      $or: [{ status: 'approved' }, { status: 'unapplied' }],
     });
 
     return certificate;

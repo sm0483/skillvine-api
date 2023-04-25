@@ -32,7 +32,10 @@ class CertificateController {
       (!req.file.mimetype.includes('application/pdf') &&
         !req.file.mimetype.startsWith('image/'))
     )
-      throw new CustomError('No PDF found on request', StatusCodes.BAD_REQUEST);
+      throw new CustomError(
+        'No Certificate  found on request',
+        StatusCodes.BAD_REQUEST
+      );
     if (errorMessage)
       throw new CustomError(errorMessage, StatusCodes.BAD_REQUEST);
     const key = `${uid()}:${req.user.id}`;
@@ -53,19 +56,27 @@ class CertificateController {
       .json({ message: 'Successfully created', certificateUrl });
   };
   public editCertificate = async (req: IFileUserRequest, res: Response) => {
+    if (req.body.data && typeof req.body.data !== 'string')
+      throw new CustomError('Data must be a string', StatusCodes.BAD_REQUEST);
     let data = req.body.data && JSON.parse(req.body.data);
     const certificateId: string = req.params.certificateId;
     if (!certificateId)
       throw new CustomError('No certificate id found', StatusCodes.BAD_REQUEST);
     if (!req.user.id)
       throw new CustomError('Token not valid', StatusCodes.UNAUTHORIZED);
-    const errorMessage =
-      this.validateCertificate.validateUploadCertificate(data);
+    const errorMessage = this.validateCertificate.validateEditCertificate(data);
     if (errorMessage)
       throw new CustomError(errorMessage, StatusCodes.BAD_REQUEST);
-    if (req.file && !req.file.mimetype.includes('application/pdf'))
-      throw new CustomError('No PDF found on request', StatusCodes.BAD_REQUEST);
-    if (!req.body && !req.file)
+    if (
+      req.file &&
+      !req.file.mimetype.includes('application/pdf') &&
+      !req.file.mimetype.startsWith('image/')
+    )
+      throw new CustomError(
+        'No Certificate found on request',
+        StatusCodes.BAD_REQUEST
+      );
+    if (!req.body.data && !req.file)
       throw new CustomError(
         'No data found on request',
         StatusCodes.BAD_REQUEST
