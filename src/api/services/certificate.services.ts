@@ -87,6 +87,7 @@ class CertificateServices {
           },
           isLeadership: 1,
           leadershipLevel: 1,
+          participationDate: 1,
         },
       },
     ]);
@@ -155,6 +156,7 @@ class CertificateServices {
           },
           isLeadership: 1,
           leadershipLevel: 1,
+          participationDate: 1,
         },
       },
     ]);
@@ -227,6 +229,7 @@ class CertificateServices {
           },
           isLeadership: 1,
           leadershipLevel: 1,
+          participationDate: 1,
         },
       },
     ]);
@@ -249,7 +252,9 @@ class CertificateServices {
     return certificate;
   };
 
-    
+  deleteCertificate = async (certificateId: string, studentId: string) => {
+    return Certificate.findOneAndDelete({ _id: certificateId, studentId });
+  };
 }
 
 export default CertificateServices;

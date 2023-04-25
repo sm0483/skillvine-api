@@ -37,6 +37,11 @@ class UserStudentRoute implements IRoute {
       (req, res, next) => verifyAccessToken(req, res, next, 'student'),
       this.certificateController.getCertificateById
     );
+    this.router.delete(
+      `${this.path}/:certificateId`,
+      (req, res, next) => verifyAccessToken(req, res, next, 'student'),
+      this.certificateController.deleteCertificate
+    );
   }
 }
 

@@ -138,6 +138,24 @@ class CertificateController {
       },
     });
   };
+
+  public deleteCertificate = async (req: IFileUserRequest, res: Response) => {
+    const studentId = req.user.id;
+    const certificateId: string = req.params.certificateId;
+    if (!certificateId)
+      throw new CustomError('No certificate id found', StatusCodes.BAD_REQUEST);
+    if (!studentId)
+      throw new CustomError('Token not valid', StatusCodes.UNAUTHORIZED);
+    const certificate = await this.certificateServices.deleteCertificate(
+      certificateId,
+      studentId
+    );
+    if (!certificate)
+      throw new CustomError('Certificate not found', StatusCodes.NOT_FOUND);
+    const deleteKey = certificate.certificateUrl.split('/certificates')[1];
+    await this.storage.deletePdf(deleteKey);
+    res.status(StatusCodes.OK).json({ message: 'Successfully deleted' });
+  };
 }
 
 export default CertificateController;
