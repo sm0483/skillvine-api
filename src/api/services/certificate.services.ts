@@ -293,11 +293,6 @@ class CertificateServices {
             activityHead: 1,
             activity: 1,
           },
-
-          lastVerifiedBy: {
-            _id: 1,
-            name: 1,
-          },
           isLeadership: 1,
           leadershipLevel: 1,
           participationDate: 1,

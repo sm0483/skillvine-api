@@ -39,6 +39,19 @@ class ScoreServices {
     );
     return score;
   };
+
+  public getPointsByStudentIdYear = async (id: string, year: number) => {
+    const certificates = await Certificate.find({
+      studentId: id,
+      status: 'approved',
+      year,
+    });
+    let score = 0;
+    certificates.forEach((certificate) => {
+      score += certificate.points;
+    });
+    return score;
+  };
 }
 
 export default ScoreServices;

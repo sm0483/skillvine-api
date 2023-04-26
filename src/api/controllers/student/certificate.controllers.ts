@@ -123,7 +123,7 @@ class CertificateController {
         certificateId,
         studentId
       );
-    res.status(StatusCodes.OK).json(certificate);
+    res.status(StatusCodes.OK).json(certificate[0]);
   };
 
   public getCertificatesAuthenticatedUser = async (

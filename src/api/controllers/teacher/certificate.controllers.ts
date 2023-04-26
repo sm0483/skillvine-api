@@ -53,12 +53,11 @@ class CertificateController {
         'CertificateId is required',
         StatusCodes.BAD_REQUEST
       );
-    const certificate = await this.certificateServices.getCertificateByIdPopulate(
-      certificateId
-    );
+    const certificate =
+      await this.certificateServices.getCertificateByIdPopulate(certificateId);
     if (!certificate)
       throw new CustomError('Certificate not found', StatusCodes.NOT_FOUND);
-    res.status(StatusCodes.OK).json(certificate);
+    res.status(StatusCodes.OK).json(certificate[0]);
   };
 
   public markCertificate = async (req: IFileUserRequest, res: Response) => {
