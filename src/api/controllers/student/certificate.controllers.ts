@@ -17,6 +17,12 @@ class CertificateController {
   private userServices: UserServices = new UserServices();
 
   public createCertificate = async (req: IFileUserRequest, res: Response) => {
+    if (
+      (req.body.data &&
+        (typeof req.body.data !== 'string' || req.body.data.length === 0)) ||
+      req.body.data === 'undefined'
+    )
+      throw new CustomError('No data found', StatusCodes.BAD_REQUEST);
     let data = req.body.data && JSON.parse(req.body.data);
     if (!data)
       throw new CustomError(
@@ -56,9 +62,20 @@ class CertificateController {
       .json({ message: 'Successfully created', certificateUrl });
   };
   public editCertificate = async (req: IFileUserRequest, res: Response) => {
-    if (req.body.data && typeof req.body.data !== 'string')
-      throw new CustomError('Data must be a string', StatusCodes.BAD_REQUEST);
-    let data = req.body.data && JSON.parse(req.body.data);
+    let data = req.body.data;
+    const errors = {
+      'Data must be a string': typeof data !== 'string',
+      'Data must not be empty': data && data.length === 0,
+      'Data must not be undefined': data === 'undefined',
+    };
+    if (data) {
+      for (const [message, condition] of Object.entries(errors)) {
+        if (condition) {
+          throw new CustomError(message, StatusCodes.BAD_REQUEST);
+        }
+      }
+      data = JSON.parse(data);
+    }
     const certificateId: string = req.params.certificateId;
     if (!certificateId)
       throw new CustomError('No certificate id found', StatusCodes.BAD_REQUEST);
@@ -76,7 +93,7 @@ class CertificateController {
         'No Certificate found on request',
         StatusCodes.BAD_REQUEST
       );
-    if (!req.body.data && !req.file)
+    if (!data && !req.file)
       throw new CustomError(
         'No data found on request',
         StatusCodes.BAD_REQUEST
