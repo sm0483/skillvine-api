@@ -15,6 +15,7 @@ interface ICertificate extends Document {
   participationDate: Date;
   leadershipLevel: number;
   isLeadership: boolean;
+  remarks: string;
 }
 
 export default ICertificate;

@@ -61,6 +61,10 @@ const certificateSchema = new mongoose.Schema<ICertificate>(
       type: Boolean,
       default: false,
     },
+    remarks: {
+      type: String,
+      default: '',
+    },
   },
   { timestamps: true }
 );

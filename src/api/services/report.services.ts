@@ -8,7 +8,7 @@ class ReportService {
 
   public getScoreByStudentWithYear = async (student: IStudent) => {
     const studentId = student._id;
-    const [year1, year2, year3, year4] = await Promise.all([
+    const [scoreYear1, scoreYear2, scoreYear3, scoreYear4] = await Promise.all([
       this.scoreServices.getPointsByStudentIdYear(studentId, 1),
       this.scoreServices.getPointsByStudentIdYear(studentId, 2),
       this.scoreServices.getPointsByStudentIdYear(studentId, 3),
@@ -21,10 +21,11 @@ class ReportService {
     return {
       student,
       points: {
-        [`First Year (${startYear} - ${startYear + 1})`]: year1,
-        [`Second Year (${startYear + 1} - ${startYear + 2})`]: year2,
-        [`Third Year(${startYear + 2} - ${startYear + 3})`]: year3,
-        [`Fourth Year(${startYear + 3} - ${endYear})`]: year4,
+        [`First Year (${startYear} - ${startYear + 1})`]: scoreYear1,
+        [`Second Year (${startYear + 1} - ${startYear + 2})`]: scoreYear2,
+        [`Third Year(${startYear + 2} - ${startYear + 3})`]: scoreYear3,
+        [`Fourth Year(${startYear + 3} - ${endYear})`]: scoreYear4,
+        [`Total Score`]: scoreYear1 + scoreYear2 + scoreYear3 + scoreYear4,
       },
     };
   };

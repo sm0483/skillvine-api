@@ -25,6 +25,7 @@ class ValidateCertificate {
     year: Joi.number().min(1).max(4).required(),
     leadershipLevel: Joi.number(),
     isLeadership: Joi.boolean().required(),
+    remarks: Joi.string(),
   });
 
   public validateEditCertificate = (data: object) => {
