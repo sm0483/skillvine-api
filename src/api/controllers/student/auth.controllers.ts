@@ -74,7 +74,7 @@ class AuthStudentController {
   public logOutUser = async (req: IFileUserRequest, res: Response) => {
     const id = req.user.id;
     if (!id) throw new CustomError('id not present', StatusCodes.UNAUTHORIZED);
-    res.clearCookie('refreshTokenStudent');
+    this.authServices.attachCookie('', res, 'refreshTokenStudent');
     res
       .status(StatusCodes.OK)
       .json({ accessTokenStudent: '', message: 'Logged out successfully' });
