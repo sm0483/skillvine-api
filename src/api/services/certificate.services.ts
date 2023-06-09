@@ -84,6 +84,8 @@ class CertificateServices {
           isLeadership: 1,
           leadershipLevel: 1,
           participationDate: 1,
+          points: 1,
+          remarks: 1,
         },
       },
     ]);
@@ -159,6 +161,8 @@ class CertificateServices {
           isLeadership: 1,
           leadershipLevel: 1,
           participationDate: 1,
+          points: 1,
+          remarks: 1,
         },
       },
     ]);
@@ -228,6 +232,8 @@ class CertificateServices {
           isLeadership: 1,
           leadershipLevel: 1,
           participationDate: 1,
+          points: 1,
+          remarks: 1,
         },
       },
     ]);
@@ -296,6 +302,8 @@ class CertificateServices {
           isLeadership: 1,
           leadershipLevel: 1,
           participationDate: 1,
+          points: 1,
+          remarks: 1,
         },
       },
     ]);

@@ -13,6 +13,14 @@ class UserController {
     const errorMessage = studentValidators.validateStudent(req.body);
     if (errorMessage)
       throw new CustomError(errorMessage, StatusCodes.BAD_REQUEST);
+    const isPresent =
+      (await this.userService.checkAdmissionNumber(req.body.admissionNumber)) ||
+      (await this.userService.checkKtuId(req.body.ktuId));
+    if (isPresent)
+      throw new CustomError(
+        'Admission number or Ktu id already present',
+        StatusCodes.CONFLICT
+      );
     const user = await this.userService.updateStudent(req.body, id);
     if (!user) throw new CustomError('User not found', StatusCodes.NOT_FOUND);
     res.status(StatusCodes.OK).json({ message: 'Successfully updated' });

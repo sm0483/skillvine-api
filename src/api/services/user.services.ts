@@ -21,6 +21,20 @@ class AuthServices {
     const teacher = await Teacher.findById(teacherId);
     return teacher;
   };
+
+  public checkKtuId = async (ktuId: string) => {
+    let isPresent = false;
+    const response = await Student.findOne({ ktuId });
+    if (response) isPresent = true;
+    return isPresent;
+  };
+
+  public checkAdmissionNumber = async (adminNumber: string) => {
+    let isPresent = false;
+    const response = await Student.findOne({ admissionNumber: adminNumber });
+    if (response) isPresent = true;
+    return isPresent;
+  };
 }
 
 export default AuthServices;
