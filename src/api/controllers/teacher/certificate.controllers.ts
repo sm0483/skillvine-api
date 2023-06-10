@@ -10,6 +10,7 @@ import CategoryServices from '@/api/services/category.services';
 import ICategory from '@/api/interfaces/ICategory.interfaces';
 import ICertificate from '@/api/interfaces/ICertificate.interfaces';
 import NotificationServices from '@/api/services/notification.services';
+import IRCertificate from '@/api/interfaces/IRCertificate.interfaces';
 
 class CertificateController {
   private certificateServices = new CertificateServices();
@@ -134,6 +135,34 @@ class CertificateController {
     await this.notificationServices.createNotification(messageData);
 
     res.status(StatusCodes.OK).json({ message: 'Certificate marked' });
+  };
+
+  public rejectCertificate = async (req: IFileUserRequest, res: Response) => {
+    let data: IRCertificate = req.body;
+    const { certificateId } = req.params;
+    const lastVerifiedBy = req.user.id;
+    const extractErrorMessages =
+      this.validateCertificate.rejectCertificate(data);
+
+    if (extractErrorMessages)
+      throw new CustomError(extractErrorMessages, StatusCodes.BAD_REQUEST);
+    data = {
+      ...data,
+      status: 'rejected',
+      points: 0,
+      lastVerifiedBy,
+    };
+    const certificate: ICertificate | null =
+      await this.certificateServices.editCertificate(data, certificateId);
+    if (!certificate)
+      throw new CustomError('Certificate not found', StatusCodes.NOT_FOUND);
+    const message = `${certificate.certificateName} rejected by ${req.user.name}`;
+    const messageData = {
+      message,
+      studentId: certificate.studentId,
+    };
+    await this.notificationServices.createNotification(messageData);
+    res.status(StatusCodes.OK).json({ message: 'Certificate rejected' });
   };
 }
 

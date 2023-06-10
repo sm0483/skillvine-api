@@ -17,7 +17,7 @@ class ValidateCertificate {
   private schemaForMark = Joi.object({
     points: Joi.number().required(),
     status: Joi.string()
-      .valid('pending', 'approved', 'rejected', 'duplicate')
+      .valid('pending', 'approved', 'rejected', 'unapplied')
       .required(),
     categoryId: Joi.string().hex().length(24).required(),
     level: Joi.number().required(),
@@ -26,6 +26,10 @@ class ValidateCertificate {
     leadershipLevel: Joi.number(),
     isLeadership: Joi.boolean().required(),
     remarks: Joi.string(),
+  });
+
+  private rejectSchema = Joi.object({
+    remarks: Joi.string().required(),
   });
 
   public validateEditCertificate = (data: object) => {
@@ -53,6 +57,10 @@ class ValidateCertificate {
 
   public validateMarkCertificate = (data: object) => {
     return extractErrorMessages(this.schemaForMark, data);
+  };
+
+  public rejectCertificate = (data: object) => {
+    return extractErrorMessages(this.rejectSchema, data);
   };
 }
 
