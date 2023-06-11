@@ -66,6 +66,13 @@ class AuthServices {
       domain: key.NODE_ENV === 'production' ? key.PARENT_DOMAIN : 'localhost',
     });
   };
+
+  public checkValid = async (studentId: string) => {
+    const valid = false;
+    const student = await Student.findById(studentId);
+    if (!student.ktuId || !student.admissionNumber) return valid;
+    return !valid;
+  };
 }
 
 export default AuthServices;

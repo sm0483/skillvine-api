@@ -59,6 +59,9 @@ class AuthStudentController {
   public getAccessToken = async (req: IFileUserRequest, res: Response) => {
     const id = req.user.id;
     if (!id) throw new CustomError('id not present', StatusCodes.UNAUTHORIZED);
+    const isValid = this.authServices.checkValid(id);
+    if (!isValid)
+      throw new CustomError('Fill out details form', StatusCodes.UNAUTHORIZED);
     const accessToken = true;
     const token = this.jwtOperations.createJwt(
       { id, accessToken },

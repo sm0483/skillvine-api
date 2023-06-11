@@ -1,5 +1,8 @@
 import Student from '@/api/models/student.models';
 import Teacher from '@/api/models/teacher.models';
+import Certificate from '@/api/models/certificate.models';
+import Notification from '@/api/models/notification.models';
+import Score from '@/api/models/score.models';
 
 class AuthServices {
   public updateStudent = async (data, studentId: string) => {
@@ -34,6 +37,16 @@ class AuthServices {
     const response = await Student.findOne({ admissionNumber: adminNumber });
     if (response) isPresent = true;
     return isPresent;
+  };
+
+  public deleteStudentData = async (userId: string) => {
+    const [studentData, certificateData] = await Promise.all([
+      Student.deleteOne({ _id: userId }),
+      Certificate.deleteMany({ studentId: userId }),
+      Score.deleteOne({ studentId: userId }),
+      Notification.deleteMany({ studentId: userId }),
+    ]);
+    return studentData.deletedCount >= 0 && certificateData.deletedCount > 0;
   };
 }
 

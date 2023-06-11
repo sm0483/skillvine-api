@@ -85,6 +85,11 @@ class CertificateController {
 
     if (!isCategoryPresent)
       throw new CustomError('Category not found', StatusCodes.NOT_FOUND);
+    if (data.points < 0)
+      throw new CustomError(
+        'Points not valid: points cannot be negative',
+        StatusCodes.BAD_REQUEST
+      );
 
     const validatePoints = await this.categoryServices.validateCategory(
       isCategoryPresent,
@@ -98,7 +103,10 @@ class CertificateController {
       await this.certificateServices.getCertificateById(certificateId);
 
     if (!validatePoints)
-      throw new CustomError('Points not valid', StatusCodes.BAD_REQUEST);
+      throw new CustomError(
+        'Points not valid: the entered points exceed the maximum allowed points',
+        StatusCodes.BAD_REQUEST
+      );
 
     const isCertificatePresent =
       await this.certificateServices.getCertByStuIdCatIdYearSta(
@@ -127,7 +135,8 @@ class CertificateController {
       await this.certificateServices.editCertificate(data, certificateId);
     if (!certificate)
       throw new CustomError('Certificate not found', StatusCodes.NOT_FOUND);
-    const message = `${certificate.certificateName} marked by ${req.user.name}`;
+    const message = `🎉 Congratulations! Your certificate '${certificate.certificateName}' 
+    has been reviewed and marked by ${req.user.name}. You have been awarded ${data.points} points. Keep up the good work! 🎉`;
     const messageData = {
       message,
       studentId: certificate.studentId,
@@ -156,7 +165,7 @@ class CertificateController {
       await this.certificateServices.editCertificate(data, certificateId);
     if (!certificate)
       throw new CustomError('Certificate not found', StatusCodes.NOT_FOUND);
-    const message = `${certificate.certificateName} rejected by ${req.user.name}`;
+    const message = `🚫 Unfortunately, your certificate '${certificate.certificateName}' has been reviewed and rejected by ${req.user.name} 🚫`;
     const messageData = {
       message,
       studentId: certificate.studentId,
