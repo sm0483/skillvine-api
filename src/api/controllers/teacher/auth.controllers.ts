@@ -7,6 +7,7 @@ import key from '@/config/key.config';
 import { ParsedQs } from 'qs';
 import IAuthUser from '@/api/interfaces/IAuthUser.interfaces';
 import JwtOperations from '@/api/utils/jwt.utils';
+import { permission } from '@/api/utils/email.utils';
 
 class AuthTeacherController {
   private authServices: AuthServices = new AuthServices();
@@ -25,10 +26,14 @@ class AuthTeacherController {
       code as string,
       'teacher'
     );
-    const userInfo: unknown = userInfoRes.data;
-    let teacher = await this.authServices.checkTeacher(
-      (userInfo as IAuthUser).email
-    );
+    const userInfo: IAuthUser = userInfoRes.data;
+
+    if (userInfo.email) {
+      if (!permission(userInfo.email)) {
+        return res.redirect(key.TEACHER_FALLBACK);
+      }
+    }
+    let teacher = await this.authServices.checkTeacher(userInfo.email);
 
     let id: string;
     let userLogin = true;
