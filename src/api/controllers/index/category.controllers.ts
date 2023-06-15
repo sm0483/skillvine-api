@@ -12,6 +12,35 @@ class CategoryController {
       throw new CustomError('Category not found', StatusCodes.NOT_FOUND);
     return res.status(StatusCodes.OK).json(categories);
   };
+  public getActivityHead = async (req: IFileUserRequest, res: Response) => {
+    const activityHead = await this.categoryServices.getActivityHead();
+    if (activityHead.length === 0)
+      throw new CustomError('Activity Head not found', StatusCodes.NOT_FOUND);
+    return res.status(StatusCodes.OK).json(activityHead);
+  };
+  public getActivity = async (req: IFileUserRequest, res: Response) => {
+    const activityHead = req.query.name;
+    if (!activityHead)
+      throw new CustomError('Activity Head not found', StatusCodes.BAD_REQUEST);
+    const activity = await this.categoryServices.getActivity(
+      activityHead as string
+    );
+    if (activity.length === 0)
+      throw new CustomError('Activity not found', StatusCodes.NOT_FOUND);
+    return res.status(StatusCodes.OK).json(activity);
+  };
+  public getLevel = async (req: IFileUserRequest, res: Response) => {
+    const activity = req.query.activity;
+    if (!activity)
+      throw new CustomError('Activity not found', StatusCodes.BAD_REQUEST);
+    const level = await this.categoryServices.getLevel(activity as string);
+    return res.status(StatusCodes.OK).json(level);
+  };
+  public getPoint = async (req: IFileUserRequest, res: Response) => {
+    const query = req.query;
+    const points = await this.categoryServices.getPoint(query);
+    return res.status(StatusCodes.OK).json(points);
+  };
 }
 
 export default CategoryController;

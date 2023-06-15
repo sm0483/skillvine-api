@@ -17,6 +17,27 @@ class CategoryRoutes implements IRoute {
       setCache,
       this.categoryController.getCategory
     );
+    this.router.get(
+      `${this.path}/activity-heads/activity`,
+      setCache,
+      this.categoryController.getActivity
+    );
+    this.router.get(
+      `${this.path}/activity-heads`,
+      setCache,
+      this.categoryController.getActivityHead
+    );
+
+    this.router.get(
+      `${this.path}/levels`,
+      setCache,
+      this.categoryController.getLevel
+    );
+    this.router.get(
+      `${this.path}/points`,
+      setCache,
+      this.categoryController.getPoint
+    );
   }
 }
 
