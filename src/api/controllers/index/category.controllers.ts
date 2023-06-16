@@ -3,9 +3,12 @@ import IFileUserRequest from '@/api/interfaces/IFileUserRequest.interfaces';
 import { Response } from 'express';
 import CustomError from '@/api/utils/customError.utils';
 import CategoryServices from '@/api/services/category.services';
+import { Query } from '@/api/interfaces/IQuery.interfaces';
+import CategoryValidator from '@/api/validators/category.validators';
 
 class CategoryController {
   private categoryServices: CategoryServices = new CategoryServices();
+  private categoryValidator: CategoryValidator = new CategoryValidator();
   public getCategory = async (req: IFileUserRequest, res: Response) => {
     const categories = await this.categoryServices.getCategory();
     if (categories.length === 0)
@@ -37,8 +40,10 @@ class CategoryController {
     return res.status(StatusCodes.OK).json(level);
   };
   public getPoint = async (req: IFileUserRequest, res: Response) => {
-    const query = req.query;
-    const points = await this.categoryServices.getPoint(query);
+    const query: unknown = req.query;
+    const error = this.categoryValidator.validateQuery(query as object);
+    if (error) throw new CustomError(error, StatusCodes.BAD_REQUEST);
+    const points = await this.categoryServices.getPoint(query as Query);
     return res.status(StatusCodes.OK).json(points);
   };
 }

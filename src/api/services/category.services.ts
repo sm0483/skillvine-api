@@ -1,5 +1,6 @@
 import Category from '@/api/models/category.models';
 import ICategory from '@/api/interfaces/ICategory.interfaces';
+import { Query } from '@/api/interfaces/IQuery.interfaces';
 
 class CategoryServices {
   public getCategory = async () => {
@@ -48,11 +49,10 @@ class CategoryServices {
         activityPoints: 1,
       }
     );
-    return { isLeadership: data.isLeadership };
+    return { isLeadership: data.isLeadership, categoryId: data._id };
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public getPoint = async (query: any) => {
+  public getPoint = async (query: Query) => {
     const { activity, level } = query;
     const isLeadership = query['is-leadership'];
     const leadershipLevel = query['leadership-level'];
