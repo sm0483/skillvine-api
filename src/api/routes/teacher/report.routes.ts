@@ -18,11 +18,11 @@ class ReportRoute implements IRoute {
       this.reportController.getReportBatch
     );
 
-    // this.router.get(
-    //   `${this.path}students/:studentId`,
-    //   (req, res, next) => verifyAccessToken(req, res, next, 'teacher'),
-    //   this.reportController.getReportStudent
-    // );
+    this.router.get(
+      `${this.path}/students/:studentId`,
+      (req, res, next) => verifyAccessToken(req, res, next, 'teacher'),
+      this.reportController.getReportStudent
+    );
   }
 }
 

@@ -13,6 +13,7 @@ import BatchRoute from '@/api/routes/teacher/batch.routes';
 import TeacherCertificateRoute from '@/api/routes/teacher/certificate.routes';
 import NotificationRoute from '@/api/routes/student/notification.routes';
 import ReportRoute from '@/api/routes/teacher/report.routes';
+import StudentRoute from '@/api/routes/teacher/student.route';
 
 const app = new App(
   [
@@ -29,6 +30,7 @@ const app = new App(
     new TeacherCertificateRoute(),
     new NotificationRoute(),
     new ReportRoute(),
+    new StudentRoute(),
   ],
   '/api/v1/'
 );

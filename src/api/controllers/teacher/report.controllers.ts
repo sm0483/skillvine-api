@@ -5,11 +5,13 @@ import ReportService from '@/api/services/report.services';
 import ScoreServices from '@/api/services/score.services';
 import BatchServices from '@/api/services/batch.services';
 import { StatusCodes } from 'http-status-codes';
+import UserService from '@/api/services/user.services';
 
 class ReportController {
   private reportService: ReportService = new ReportService();
   private scoreService: ScoreServices = new ScoreServices();
   private batchService: BatchServices = new BatchServices();
+  private userService: UserService = new UserService();
   public getReportBatch = async (req: IFileUserRequest, res: Response) => {
     const { batch } = req.params;
     if (!batch)
@@ -22,6 +24,17 @@ class ReportController {
     });
 
     const report = await Promise.all(reportPromises);
+    res.status(StatusCodes.OK).json(report);
+  };
+
+  public getReportStudent = async (req: IFileUserRequest, res: Response) => {
+    const { studentId } = req.params;
+    if (!studentId)
+      throw new CustomError('Student id not present', StatusCodes.BAD_REQUEST);
+    const student = await this.userService.getStudent(studentId);
+    if (!student)
+      throw new CustomError('Student not found', StatusCodes.NOT_FOUND);
+    const report = await this.reportService.getReportStudent(student);
     res.status(StatusCodes.OK).json(report);
   };
 }

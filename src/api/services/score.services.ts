@@ -52,6 +52,14 @@ class ScoreServices {
     });
     return score;
   };
+
+  public getScore = async (studentId: string) => {
+    const scores = await Score.findOne({ studentId }).populate(
+      'studentId',
+      'name'
+    );
+    return scores;
+  };
 }
 
 export default ScoreServices;

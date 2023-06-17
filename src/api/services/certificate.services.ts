@@ -329,6 +329,45 @@ class CertificateServices {
   deleteCertificate = async (certificateId: string, studentId: string) => {
     return Certificate.findOneAndDelete({ _id: certificateId, studentId });
   };
+
+  public getApprovedCertificateByStudentIdYear = async (
+    studentId: string,
+    year: number
+  ) => {
+    const certificates = await Certificate.find(
+      {
+        studentId,
+        year,
+        status: 'approved',
+      },
+      {
+        points: 1,
+        categoryId: 1,
+        level: 1,
+        isLeadership: 1,
+        leadershipLevel: 1,
+        certificateName: 1,
+        participationDate: 1,
+      }
+    ).populate('categoryId', 'activityHead activity');
+
+    const formattedCertificates = certificates.map((certificate) => {
+      const formattedDate = certificate.participationDate.toLocaleDateString(
+        'en-US',
+        {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        }
+      );
+      return {
+        ...certificate.toObject(),
+        participationDate: formattedDate,
+      };
+    });
+
+    return formattedCertificates;
+  };
 }
 
 export default CertificateServices;
