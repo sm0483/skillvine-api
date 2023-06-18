@@ -7,11 +7,12 @@ import key from '@/config/key.config';
 import { ParsedQs } from 'qs';
 import IAuthUser from '@/api/interfaces/IAuthUser.interfaces';
 import JwtOperations from '@/api/utils/jwt.utils';
-import { permission } from '@/api/utils/email.utils';
+import ValidateEmail from '@/api/utils/email.utils';
 
 class AuthTeacherController {
   private authServices: AuthServices = new AuthServices();
   private jwtOperations: JwtOperations = new JwtOperations();
+  private validateEmail: ValidateEmail = new ValidateEmail();
 
   public redirectAuth = async (req: IFileUserRequest, res: Response) => {
     const url: string = await this.authServices.getUrl('teacher');
@@ -29,7 +30,10 @@ class AuthTeacherController {
     const userInfo: IAuthUser = userInfoRes.data;
 
     if (userInfo.email) {
-      if (!permission(userInfo.email)) {
+      if (
+        !this.validateEmail.adminPermission(userInfo.email) &&
+        !this.validateEmail.teacherPermission(userInfo.email)
+      ) {
         return res.redirect(key.TEACHER_FALLBACK);
       }
     }
