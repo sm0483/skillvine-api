@@ -4,9 +4,12 @@ import { Response } from 'express';
 import CustomError from '@/api/utils/customError.utils';
 import UserServices from '@/api/services/user.services';
 import studentValidators from '@/api/validators/student.validators';
+import ScoreServices from '@/api/services/score.services';
 
 class UserController {
-  public userService: UserServices = new UserServices();
+  private userService: UserServices = new UserServices();
+  private scoreServices: ScoreServices = new ScoreServices();
+
   public updateUser = async (req: IFileUserRequest, res: Response) => {
     const id = req.user.id;
     if (!id) throw new CustomError('Id not present', StatusCodes.UNAUTHORIZED);
@@ -16,6 +19,11 @@ class UserController {
       ktuId: req.body.ktuId.toUpperCase(),
       admissionNumber: req.body.admissionNumber.toUpperCase(),
     };
+
+    if (req.body.ktuId.startsWith('LKTE')) {
+      await this.scoreServices.createScore(id, 0, 70);
+    } else await this.scoreServices.createScore(id, 0);
+
     if (errorMessage)
       throw new CustomError(errorMessage, StatusCodes.BAD_REQUEST);
     const isPresent =

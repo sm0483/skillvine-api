@@ -23,10 +23,15 @@ class ScoreServices {
     return score;
   };
 
-  public createScore = async (id: string, points: number) => {
+  public createScore = async (
+    id: string,
+    points: number,
+    targetScore = 100
+  ) => {
     const score = await Score.create({
       studentId: id,
       currentScore: points,
+      targetScore,
     });
     return score;
   };

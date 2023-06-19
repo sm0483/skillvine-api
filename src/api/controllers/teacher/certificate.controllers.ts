@@ -142,6 +142,7 @@ class CertificateController {
       studentId: certificate.studentId,
     };
     await this.notificationServices.createNotification(messageData);
+    
 
     res.status(StatusCodes.OK).json({ message: 'Certificate marked' });
   };

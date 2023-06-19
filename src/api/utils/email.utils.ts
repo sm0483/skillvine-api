@@ -20,8 +20,8 @@ class ValidateEmail {
       if (email.match(studentRegex)) {
         return true;
       }
-      return false;
     }
+    return false;
   };
 
   public teacherPermission = (email: string) => {
