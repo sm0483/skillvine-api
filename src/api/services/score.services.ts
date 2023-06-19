@@ -1,6 +1,6 @@
 import ICertificate from '@/api/interfaces/ICertificate.interfaces';
 import Certificate from '@/api/models/certificate.models';
-import Score from '../models/score.models';
+import Score from '@/api/models/score.models';
 
 class ScoreServices {
   public getCertificates = async (id: string) => {

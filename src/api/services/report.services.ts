@@ -1,7 +1,7 @@
 import IStudent from '@/api/interfaces/IStudent.interfaces';
 import ScoreServices from '@/api/services/score.services';
 import CertificateServices from '@/api/services/certificate.services';
-import IScore from '../interfaces/IScore.interfaces';
+import IScore from '@/api/interfaces/IScore.interfaces';
 
 class ReportService {
   private scoreServices: ScoreServices = new ScoreServices();

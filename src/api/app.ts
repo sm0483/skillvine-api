@@ -13,6 +13,9 @@ import errorHandler from './middlewares/errorHandler.middlewares';
 import pageNotFound from './middlewares/notFound.middlewares';
 import IRoute from './interfaces/IRoute.interfaces';
 
+// security
+import helmet from 'helmet';
+
 class App {
   public app: express.Application;
   public start: string;
@@ -32,7 +35,13 @@ class App {
     key.NODE_ENV !== 'test' && this.app.use(morgan('dev'));
     this.app.use(cookieParser());
     this.app.use(express.json());
-    this.app.use(cors({ origin: '*', credentials: true }));
+    this.app.use(
+      cors({
+        origin: key.APP_DOMAIN || 'http://localhost:3000',
+        credentials: true,
+      })
+    );
+    this.app.use(helmet());
   };
 
   private initErrorHandler = () => {

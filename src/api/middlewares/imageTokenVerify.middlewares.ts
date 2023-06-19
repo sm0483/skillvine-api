@@ -1,7 +1,7 @@
 import { Response, NextFunction } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import CustomError from '../utils/customError.utils';
-import JwtOperations from '../utils/jwt.utils';
+import CustomError from '@/api/utils/customError.utils';
+import JwtOperations from '@/api/utils/jwt.utils';
 import IFileUserRequest from '@/api/interfaces/IFileUserRequest.interfaces';
 import Key from '../../config/key.config';
 import ITokenResponse from '@/api/interfaces/ITokenResponse.interfaces';

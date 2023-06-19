@@ -11,6 +11,7 @@ import ICategory from '@/api/interfaces/ICategory.interfaces';
 import ICertificate from '@/api/interfaces/ICertificate.interfaces';
 import NotificationServices from '@/api/services/notification.services';
 import IRCertificate from '@/api/interfaces/IRCertificate.interfaces';
+import ScoreServices from '@/api/services/score.services';
 
 class CertificateController {
   private certificateServices = new CertificateServices();
@@ -18,6 +19,8 @@ class CertificateController {
   private validateCertificate = new ValidateCertificate();
   private categoryServices = new CategoryServices();
   private notificationServices = new NotificationServices();
+  private scoreServices = new ScoreServices();
+
   public getCertificateByStudentId = async (
     req: IFileUserRequest,
     res: Response
@@ -141,9 +144,19 @@ class CertificateController {
       message,
       studentId: certificate.studentId,
     };
-    await this.notificationServices.createNotification(messageData);
-    
 
+    const id: unknown = certificate.studentId;
+
+    const certificates = await this.scoreServices.getCertificates(id as string);
+    let points = 0;
+    if (certificates.length !== 0) {
+      points = await this.scoreServices.getPoints(certificates);
+    }
+
+    await Promise.all([
+      this.notificationServices.createNotification(messageData),
+      this.scoreServices.updateScore(id as string, points),
+    ]);
     res.status(StatusCodes.OK).json({ message: 'Certificate marked' });
   };
 

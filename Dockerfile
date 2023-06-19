@@ -2,6 +2,9 @@
 
 FROM node:17-alpine as common-build
 
+ARG RAILWAY_ENVIRONMENT
+ENV RAILWAY_ENVIRONMENT=$RAILWAY_ENVIRONMENT
+
 WORKDIR /app
 
 COPY package*.json ./
@@ -34,7 +37,6 @@ ENV NODE_ENV production
 WORKDIR /app
 
 COPY --from=common-build /app/package*.json ./
-COPY --from=common-build /app/.env ./
 
 RUN npm install --only=production
 COPY --from=common-build /app/dist ./dist/

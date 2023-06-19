@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import  IStudent  from '@/api/interfaces/IStudent.interfaces';
+import IStudent from '@/api/interfaces/IStudent.interfaces';
 
 const studentSchema = new mongoose.Schema<IStudent>({
   name: {
@@ -13,7 +13,6 @@ const studentSchema = new mongoose.Schema<IStudent>({
   },
   ktuId: {
     type: String,
-    unique: true,
   },
   college: {
     type: String,
@@ -22,15 +21,14 @@ const studentSchema = new mongoose.Schema<IStudent>({
   },
   admissionNumber: {
     type: String,
-    unique: true,
   },
   batch: {
     type: String,
   },
-  profileImage:{
+  profileImage: {
     type: String,
     default: '',
-  }
+  },
 });
 
 const Student = mongoose.model<IStudent>('Student', studentSchema);

@@ -30,4 +30,5 @@ export default {
   PARENT_DOMAIN: process.env.PARENT_DOMAIN,
   TEACHER_FALLBACK: process.env.TEACHER_FALLBACK,
   STUDENT_FALLBACK: process.env.STUDENT_FALLBACK,
+  APP_DOMAIN: process.env.APP_DOMAIN,
 };
