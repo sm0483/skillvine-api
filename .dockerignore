@@ -1,0 +1,8 @@
+node_modules
+npm-debug.log
+dist
+coverage
+.eslintrc
+.prettierrc
+test
+jest.config.js
