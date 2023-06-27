@@ -1,11 +1,13 @@
 # Skillvine API
 
 ## Overview
+
 Welcome to Skill Vine. This comprehensive solution streamlines the process of managing students’ certificates and tracking their activity points. Key features include:
 
-- Secure authentication and registration for student and teacher accounts
-- Robust certificate upload functionality with support for image and PDF formats
-- Customizable certificate marking system for teachers to assign points
+-   Secure authentication and registration for student and teacher accounts
+-   Robust certificate upload functionality with support for image and PDF formats
+-   Customizable certificate marking system for teachers to assign points
+
 ## Getting Started
 
 This guide provides instructions for setting up a development environment for the Skillvine API. Follow these steps to configure the necessary prerequisites and start using the API.
@@ -51,7 +53,7 @@ npm i && npm run dev
 
 After completing these steps, the development environment will be configured and ready to use. The available endpoints can now be explored and integrations can be built.
 
-For more detailed information on the available endpoints, including their parameters and responses, please refer to our [Postman documentation](https://documenter.getpostman.com/view/21080448/2s93Y2Sgkf).
+For more detailed information on the available endpoints, including their parameters and responses, please refer to our [Postman documentation](https://documenter.getpostman.com/view/21080448/2s93z9aMex).
 
 ## Error Codes
 
@@ -68,3 +70,14 @@ This API is built using a robust and scalable technology stack, including:
 -   **Amazon S3**: A highly scalable and durable object storage service used for image storage.
 -   **MongoDB**: A document-based database used for storing and retrieving data.
 -   **Express**: A fast and minimalist web framework for Node.js used to build the backend.
+
+## Contributors
+
+-   [Alvin Varghese](https://github.com/alvin1904)
+-   [Anson Anthrayose Thomas](https://github.com/Anson369)
+-   [Vignesh R Pillai](https://github.com/vigneshacks)
+-   [Sreerag M](https://github.com/sm0483)
+    <br/>
+    S6 CSE<br/>
+    Govt. Engg. College (APJAKTU)<br/>
+    Kottayam, Kerala, India<br/>
