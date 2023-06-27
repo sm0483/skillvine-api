@@ -20,6 +20,7 @@ class App {
   public app: express.Application;
   public start: string;
   public port: number;
+  private allowedOrigins = ['http://localhost:3000', key.APP_DOMAIN];
 
   constructor(routes: IRoute[], start: string) {
     this.port = key.PORT as number;
@@ -35,9 +36,10 @@ class App {
     key.NODE_ENV !== 'test' && this.app.use(morgan('dev'));
     this.app.use(cookieParser());
     this.app.use(express.json());
+
     this.app.use(
       cors({
-        origin: key.APP_DOMAIN || 'http://localhost:3000',
+        origin: this.allowedOrigins,
         credentials: true,
       })
     );

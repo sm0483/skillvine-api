@@ -2,14 +2,12 @@ import CustomError from '@/api/utils/customError.utils';
 import IFileUserRequest from '@/api/interfaces/IFileUserRequest.interfaces';
 import { Response } from 'express';
 import ReportService from '@/api/services/report.services';
-import ScoreServices from '@/api/services/score.services';
 import BatchServices from '@/api/services/batch.services';
 import { StatusCodes } from 'http-status-codes';
 import UserService from '@/api/services/user.services';
 
 class ReportController {
   private reportService: ReportService = new ReportService();
-  private scoreService: ScoreServices = new ScoreServices();
   private batchService: BatchServices = new BatchServices();
   private userService: UserService = new UserService();
   public getReportBatch = async (req: IFileUserRequest, res: Response) => {

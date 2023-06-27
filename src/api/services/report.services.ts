@@ -74,7 +74,7 @@ class ReportService {
       batch: student.batch,
       ktuId: student.ktuId,
       admissionNumber: student.admissionNumber,
-      currentScore: scoreDetails.currentScore,
+      currentScore: scoreYear1 + scoreYear2 + scoreYear3 + scoreYear4,
       targetScore: scoreDetails.targetScore,
     };
 

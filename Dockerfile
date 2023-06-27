@@ -34,14 +34,16 @@ FROM node:17-alpine as production-build
 
 ENV NODE_ENV production
 
+
+
 WORKDIR /app
 
 COPY --from=common-build /app/package*.json ./
 
-RUN npm install --only=production
+
+RUN npm install --omit=dev
 COPY --from=common-build /app/dist ./dist/
 
-RUN mkdir /app/dist/api/uploads
 RUN chown -R node:node /app/dist/api/uploads
 
 

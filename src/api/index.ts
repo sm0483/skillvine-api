@@ -1,3 +1,4 @@
+import 'module-alias/register';
 import App from '@/api/app';
 import keyConfig from '../config/key.config';
 import IndexRoute from '@/api/routes/index/index.routes';
