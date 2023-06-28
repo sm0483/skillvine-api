@@ -24,7 +24,7 @@ class AuthTeacherRoute implements IRoute {
       this.authTeacherController.callbackAuth
     );
     this.router.get(
-      `${this.path}/get-access-token`,
+      `${this.path}/access-tokens`,
       (req, res, next) => verifyRefreshToken(req, res, next, 'teacher'),
       this.authTeacherController.getAccessToken
     );

@@ -1,14 +1,8 @@
+import mail from '@/data/sudo';
+
 class ValidateEmail {
   public adminPermission = (email: string) => {
-    const array = [
-      'alvin19official@gmail.com',
-      'sm048314916@gmail.com',
-      '20br13468@rit.ac.in',
-      '20br13697@rit.ac.in',
-      '20br13360@rit.ac.in',
-      '20br13364@rit.ac.in',
-      'vigneshcse2024@gmail.com',
-    ];
+    const array = mail;
     if (array.includes(email)) return true;
     return false;
   };

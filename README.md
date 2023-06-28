@@ -31,13 +31,13 @@ To run the server using Docker, follow these steps:
 
 1. Build the Docker image by running
 
-```
+```bash
 docker build -t skillvine-api . && docker run -p 5000:5000 skillvine-api
 ```
 
-2. Start the server by running
+2. To start the server in development mode, you can run the following command:
 
-```
+```bash
 docker-compose up
 ```
 
@@ -47,8 +47,8 @@ To run the server using `npm`, follow these steps:
 
 Run this command to install dependencies and start the server in development mode:
 
-```
-npm i && npm run dev
+```bash
+npm run build && npm run dev
 ```
 
 After completing these steps, the development environment will be configured and ready to use. The available endpoints can now be explored and integrations can be built.
@@ -67,9 +67,9 @@ For more detailed information on the available endpoints, including their parame
 
 This API is built using a robust and scalable technology stack, including:
 
--   **Amazon S3**: A highly scalable and durable object storage service used for image storage.
--   **MongoDB**: A document-based database used for storing and retrieving data.
 -   **Express**: A fast and minimalist web framework for Node.js used to build the backend.
+-   **MongoDB**: A document-based database used for storing and retrieving data.
+-   **Amazon S3**: A highly scalable and durable object storage service used for image storage.
 
 ## Contributors
 
@@ -77,7 +77,7 @@ This API is built using a robust and scalable technology stack, including:
 -   [Anson Anthrayose Thomas](https://github.com/Anson369)
 -   [Vignesh R Pillai](https://github.com/vigneshacks)
 -   [Sreerag M](https://github.com/sm0483)
-    <br/>
-    S6 CSE<br/>
-    Govt. Engg. College (APJAKTU)<br/>
-    Kottayam, Kerala, India<br/>
+
+S6 CSE  
+Govt. Engg. College (APJAKTU)  
+Kottayam, Kerala, India

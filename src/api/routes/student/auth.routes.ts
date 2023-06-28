@@ -25,7 +25,7 @@ class AuthStudentRoute implements IRoute {
     );
 
     this.router.get(
-      `${this.path}/get-access-token`,
+      `${this.path}/access-tokens`,
       (req, res, next) => verifyRefreshToken(req, res, next, 'student'),
       this.authStudentController.getAccessToken
     );
